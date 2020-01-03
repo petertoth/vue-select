@@ -154,6 +154,15 @@
       },
 
       /**
+       * Can the user deselect an option by clicking it.
+       * @type {Boolean}
+       */
+      deselectByOption: {
+        type: Boolean,
+        default: false
+      },
+
+      /**
        * Enable/disable filtering the options.
        * @type {Boolean}
        */
@@ -652,7 +661,9 @@
       },
 
       /**
-       * Select a given option.
+       * Select or deselect a given option.
+       *
+       * Allow deselect if clearable or if not the only selected option
        * @param  {Object|String} option
        * @return {void}
        */
@@ -665,6 +676,8 @@
             option = this.selectedValue.concat(option)
           }
           this.updateValue(option);
+        } else if (this.deselectByOption && (this.clearable || this.multiple && this.val.length > 1)) {
+          this.deselect(option)
         }
         this.onAfterSelect(option)
       },
